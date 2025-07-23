@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  const keyPath = path.join(process.cwd(), 'credentials/service-account.json');
+  const keyPath = path.join(process.cwd(), 'service-account.json');
   const auth = new google.auth.GoogleAuth({
     keyFile: keyPath,
     scopes: ['https://www.googleapis.com/auth/cloud-platform'],
