@@ -17,9 +17,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const authClient = await auth.getClient();
 
   const vertex = google.aiplatform({
-    version: 'v1',
-    auth: authClient,
+    version: 'v1beta1',
+    auth: auth,
   });
+
 
   const project = process.env.GCP_PROJECT_ID;
   const location = process.env.GCP_REGION;
