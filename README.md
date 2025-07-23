@@ -105,6 +105,7 @@ graph TD
 
 ## 📝 TODO
 
+- 補充說明如何在 Google Cloud Console / Vertex AI 訓練 AutoML 模型並部署 Endpoint
 - 支援更多特徵欄位與模型自訂化
 - 增加前端輸入驗證提示與錯誤訊息
 - 優化行動裝置響應式設計
