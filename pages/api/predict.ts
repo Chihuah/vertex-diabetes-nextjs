@@ -52,7 +52,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    res.status(200).json(prediction.data);
+    // 只回傳 predictions 欄位
+    res.status(200).json({
+      predictions: prediction.data.predictions
+    });
   } catch (err: any) {
     res.status(500).json({ error: err.message || String(err) });
   }
