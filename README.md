@@ -22,7 +22,7 @@
 
 > ![預覽圖](./screenshot.png)
 >
-> 使用者在頁面輸入資料，按下「風險評估」即可獲得風險指數與詳細 AI 回傳內容。
+> 使用者在頁面輸入資料，按下「風險評估」即可獲得風險指數與 Vertex AI 回傳內容。
 
 ---
 
@@ -42,11 +42,12 @@ graph TD
 ## 🛠️ 本地開發與執行
 
 0.  **準備資料與訓練 AutoML 模型（在 Google Cloud Console / Vertex AI）**
-    a. 建立 Google Cloud 專案 & 啟用 API
-    b. 準備訓練資料集
-    c. 建立 AutoML Tabular 訓練任務
-    d. 訓練完成後部署模型到 Endpoint
-    e. 記錄 REST API 呼叫資訊
+
+    > - 建立 Google Cloud 專案 & 啟用 API
+    > - 準備訓練資料集
+    > - 建立 AutoML Tabular 訓練任務
+    > - 訓練完成後部署模型到 Endpoint
+    > - 記錄 REST API 呼叫資訊
 
 1.  **複製專案並安裝依賴**
     ```bash
@@ -60,7 +61,7 @@ graph TD
     GCP_REGION=us-central1
     VERTEX_ENDPOINT_ID=your-endpoint-id
     ```
-3.  **將 Google Cloud 服務帳戶金鑰（JSON）放到 `credentials/service-account.json`**
+3.  **將 Google Cloud 服務帳戶金鑰（JSON）存在根目錄下 `service-account.json`**
     > ⚠️ 請勿將金鑰檔案上傳到 GitHub！
 4.  **啟動開發模式**
     ```bash
@@ -90,7 +91,7 @@ graph TD
 
 ## 🛡️ 安全建議
 
-- **金鑰檔案與 `.env.local` 請勿上傳到 GitHub，並務必加入 `.gitignore`**
+- **金鑰檔案與 `.env.local` 請勿上傳到 GitHub，務必加入 `.gitignore`**
 - 部署雲端請善用 Render（或 Vercel、GCP Cloud Run）的 Secret/Env 功能儲存敏感資料
 
 ---
