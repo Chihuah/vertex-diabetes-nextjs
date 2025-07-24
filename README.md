@@ -23,6 +23,8 @@
 > ![預覽圖](./screenshot.png)
 >
 > 使用者在頁面輸入資料，按下「風險評估」即可獲得風險指數與 Vertex AI 回傳內容。
+> 
+> **已部署網站連結**: [https://vertex-diabetes-nextjs.onrender.com/](https://vertex-diabetes-nextjs.onrender.com/)
 
 ---
 
@@ -78,14 +80,14 @@ graph TD
 2.  **Render.com 建立新 Web Service，連接此 repo**
 3.  **設定 Build Command:**
     ```
-    npm install && npm run build
+    npm install; npm run build
     ```
     **Start Command:**
     ```
     npm run start
     ```
 4.  **於 Environment Variables 輸入 .env.local 變數**
-5.  **使用 Secret Files 上傳 `credentials/service-account.json`**
+5.  **使用 Secret Files 上傳 `service-account.json`**
 6.  **完成部署後，取得公開網址即可使用**
 
 ---
@@ -107,7 +109,6 @@ graph TD
 
 ## 📝 TODO
 
-- 補充說明如何在 Google Cloud Console / Vertex AI 訓練 AutoML 模型並部署 Endpoint
 - 支援更多特徵欄位與模型自訂化
 - 增加前端輸入驗證提示與錯誤訊息
 - 優化行動裝置響應式設計
