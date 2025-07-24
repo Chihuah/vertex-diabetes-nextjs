@@ -48,6 +48,7 @@ graph TD
     > - 建立 AutoML Tabular 訓練任務
     > - 訓練完成後部署模型到 Endpoint
     > - 記錄 REST API 呼叫資訊
+    > - 完整操作步驟流程，詳見：[糖尿病風險預測模型訓練 AutoML 教學](./VertexAI_AutoML_Tutorial.md)
 
 1.  **複製專案並安裝依賴**
     ```bash
