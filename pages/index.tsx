@@ -1,24 +1,31 @@
 import { useState } from 'react';
 
 type FormState = {
-  Glucose: string;    // 血糖
-  BloodPressure: string; // 血壓
-  Height: string;     // 身高
-  Weight: string;     // 體重
-  Age: string;        // 年齡
+  gender: string;
+  age: string;
+  height: string;
+  weight: string;
+  hypertension: string;
+  heart_disease: string;
+  blood_glucose_level: string;
+  HbA1c_level: string;
 };
 
 export default function Home() {
   const [form, setForm] = useState<FormState>({
-    Glucose: '',
-    BloodPressure: '',
-    Height: '',
-    Weight: '',
-    Age: '',
+    gender: '',
+    age: '',
+    height: '',
+    weight: '',
+    hypertension: '0',
+    heart_disease: '0',
+    blood_glucose_level: '',
+    HbA1c_level: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<string | null>(null);
+  const [sentPayload, setSentPayload] = useState<any>(null);
 
   // 自動計算 BMI
   function calcBMI(heightCm: string, weightKg: string): string {
@@ -31,7 +38,7 @@ export default function Home() {
   }
 
   // 處理輸入
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -47,17 +54,24 @@ export default function Home() {
     const interval = setInterval(() => {
       tick += 1;
       setProgress(Math.min(100, tick * 10));
-    }, 1000);
+    }, 300);
 
     // 計算 BMI
-    const BMI = calcBMI(form.Height, form.Weight);
+    const bmi = calcBMI(form.height, form.weight);
 
     const payload = {
-      Glucose: form.Glucose,
-      BloodPressure: form.BloodPressure,
-      BMI: BMI,
-      Age: form.Age,
+      gender: form.gender,
+      age: form.age,
+      height: form.height,
+      weight: form.weight,
+      hypertension: form.hypertension,
+      heart_disease: form.heart_disease,
+      blood_glucose_level: form.blood_glucose_level,
+      bmi: bmi,
+      HbA1c_level: form.HbA1c_level,
     };
+
+    setSentPayload(payload);
 
     const res = await fetch('/api/predict', {
       method: 'POST',
@@ -132,80 +146,167 @@ export default function Home() {
         <h2 style={{ fontSize: 28, margin: "0 0 30px 0", fontWeight: 800, letterSpacing: 1, textAlign: "center" }}>糖尿病風險預測</h2>
         <form onSubmit={handleSubmit} autoComplete="off">
           <label style={labelStyle}>
-            血糖值（Glucose）<span style={{ color: "#888", fontSize: 12 }}>（0~199）</span>
+            性別
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ marginRight: 16 }}>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Female"
+                  checked={form.gender === "Female"}
+                  onChange={handleChange}
+                  required
+                /> 女
+              </label>
+              <label style={{ marginRight: 16 }}>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Male"
+                  checked={form.gender === "Male"}
+                  onChange={handleChange}
+                  required
+                /> 男
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Other"
+                  checked={form.gender === "Other"}
+                  onChange={handleChange}
+                  required
+                /> 其他
+              </label>
+            </div>
+          </label>
+          <label style={labelStyle}>
+            年齡（0~100）
             <input
               style={inputStyle}
               type="number"
               min="0"
-              max="199"
-              name="Glucose"
-              placeholder="請輸入血糖值"
-              value={form.Glucose}
+              max="100"
+              name="age"
+              placeholder="請輸入年齡"
+              value={form.age}
               onChange={handleChange}
               required
             />
           </label>
           <label style={labelStyle}>
-            血壓（BloodPressure）<span style={{ color: "#888", fontSize: 12 }}>（0~130）</span>
-            <input
-              style={inputStyle}
-              type="number"
-              min="0"
-              max="130"
-              name="BloodPressure"
-              placeholder="請輸入血壓"
-              value={form.BloodPressure}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label style={labelStyle}>
-            身高（公分）<span style={{ color: "#888", fontSize: 12 }}>例如：165</span>
+            身高（公分）
             <input
               style={inputStyle}
               type="number"
               min="80"
               max="250"
-              name="Height"
+              name="height"
               placeholder="請輸入身高"
-              value={form.Height}
+              value={form.height}
               onChange={handleChange}
               required
             />
           </label>
           <label style={labelStyle}>
-            體重（公斤）<span style={{ color: "#888", fontSize: 12 }}>例如：70</span>
+            體重（公斤）
             <input
               style={inputStyle}
               type="number"
               min="20"
               max="250"
-              name="Weight"
+              name="weight"
               placeholder="請輸入體重"
-              value={form.Weight}
+              value={form.weight}
               onChange={handleChange}
               required
             />
           </label>
           <label style={labelStyle}>
-            年齡（Age）<span style={{ color: "#888", fontSize: 12 }}>（20~90）</span>
+            高血壓
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ marginRight: 16 }}>
+                <input
+                  type="radio"
+                  name="hypertension"
+                  value="0"
+                  checked={form.hypertension === "0"}
+                  onChange={handleChange}
+                  required
+                /> 無
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="hypertension"
+                  value="1"
+                  checked={form.hypertension === "1"}
+                  onChange={handleChange}
+                  required
+                /> 有
+              </label>
+            </div>
+          </label>
+
+          <label style={labelStyle}>
+            心臟病
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ marginRight: 16 }}>
+                <input
+                  type="radio"
+                  name="heart_disease"
+                  value="0"
+                  checked={form.heart_disease === "0"}
+                  onChange={handleChange}
+                  required
+                /> 無
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="heart_disease"
+                  value="1"
+                  checked={form.heart_disease === "1"}
+                  onChange={handleChange}
+                  required
+                /> 有
+              </label>
+            </div>
+          </label>
+          <label style={labelStyle}>
+            血糖值（0~300）
             <input
               style={inputStyle}
               type="number"
-              min="20"
-              max="90"
-              name="Age"
-              placeholder="請輸入年齡"
-              value={form.Age}
+              min="0"
+              max="300"
+              name="blood_glucose_level"
+              placeholder="請輸入血糖值"
+              value={form.blood_glucose_level}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <label style={labelStyle}>
+            醣化血紅素（HbA1c Level）（3.5~9）
+            <input
+              style={inputStyle}
+              type="number"
+              min="3.5"
+              max="9"
+              step="0.1"
+              name="HbA1c_level"
+              placeholder="請輸入 HbA1c"
+              value={form.HbA1c_level}
               onChange={handleChange}
               required
             />
           </label>
 
           {/* BMI 動態顯示 */}
-          {form.Height && form.Weight &&
+          {form.height && form.weight &&
             <div style={{ marginBottom: 12, color: "#1b6db4", fontSize: 15 }}>
-              已計算 BMI：<b>{calcBMI(form.Height, form.Weight)}</b>
+              已計算 BMI：<b>{calcBMI(form.height, form.weight)}</b>
             </div>
           }
 
@@ -242,6 +343,24 @@ export default function Home() {
             <p style={{ fontSize: 17, margin: "8px 0" }}>
               {getRiskMessage(JSON.parse(result))}
             </p>
+            <details style={{ marginTop: 10 }}>
+              <summary style={{ fontSize: 15, color: "#1985bb", cursor: "pointer" }}>送出至 API 的內容</summary>
+              <pre
+                style={{
+                  background: "#f6f8fa",
+                  borderRadius: 10,
+                  padding: 16,
+                  fontSize: 14,
+                  overflowX: "auto",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-all",
+                  border: "1px solid #eee",
+                  marginTop: 8
+                }}
+              >
+                {sentPayload && JSON.stringify(sentPayload, null, 2)}
+              </pre>
+            </details>
             <details style={{ marginTop: 10 }}>
               <summary style={{ fontSize: 15, color: "#1985bb", cursor: "pointer" }}>完整 API 回傳內容</summary>
               <pre

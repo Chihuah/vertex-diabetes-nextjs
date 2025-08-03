@@ -36,12 +36,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   //   Age: Number(req.body.Age),
   // };
   // 只傳這四個欄位，且全部為字串
-    const instance = {
-      Glucose: String(req.body.Glucose),
-      BloodPressure: String(req.body.BloodPressure),
-      BMI: String(req.body.BMI),
-      Age: String(req.body.Age),
-    };
+  const instance = {
+    gender: String(req.body.gender),
+    age: String(req.body.age),
+    hypertension: String(req.body.hypertension),
+    heart_disease: String(req.body.heart_disease),
+    blood_glucose_level: String(req.body.blood_glucose_level),
+    bmi: String(req.body.bmi),
+    HbA1c_level: String(req.body.HbA1c_level),
+  };
 
 
   try {
