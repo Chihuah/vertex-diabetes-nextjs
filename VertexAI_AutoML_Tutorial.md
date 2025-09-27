@@ -121,6 +121,7 @@
 - 記得資料欄位型態必須與模型訓練時一致
 - 不要在公開環境曝露 GCP 金鑰/模型 ID
 - 部署前建議以測試專案/帳號練習
+- ⚠️ 已部署到 Vertex AI Endpoint 會持續計費（就算零請求）；不用時請 Undeploy，或部署時將 min_replica_count=0，或改用 Batch Prediction/Cloud Run 以避免閒置費用。
 
 ---
 
